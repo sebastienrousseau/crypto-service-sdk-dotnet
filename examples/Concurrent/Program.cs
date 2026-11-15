@@ -2,7 +2,7 @@
 //
 // Many calls in flight on one client: the client is safe to share, its
 // pooled handler reuses connections, and each call has its own timeout
-// within an overall deadline. Retries are on for this example (two at
+// within an overall deadline. Retries are on for this example (three at
 // most, idempotent hashing only), and one CancellationToken bounds the
 // whole batch.
 //
@@ -15,7 +15,7 @@ await using CryptoServiceClient client = Example.CreateClient(o =>
 {
     o.Timeout = TimeSpan.FromSeconds(10);
     o.Deadline = TimeSpan.FromSeconds(20);
-    o.Retry = new RetryOptions { MaxRetries = 2 };
+    o.Retry = new RetryOptions { MaxRetries = 3 };
     o.GenerateTraceparent = true;
 });
 using var batch = new CancellationTokenSource(TimeSpan.FromSeconds(30));

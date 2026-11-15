@@ -25,6 +25,10 @@ public class LoopbackBenchmarks : IDisposable
         {
             BaseUrl = new Uri(BaseUrl ?? throw new InvalidOperationException("CRYPTO_SERVICE_URL is unset.")),
             ApiKey = Environment.GetEnvironmentVariable("CRYPTO_SERVICE_API_KEY"),
+
+            // A full run exceeds the server's 60 requests a minute per
+            // principal; a 429 is waited out as its Retry-After asks.
+            Retry = new RetryOptions { MaxRetries = 3 },
         });
 
     [Benchmark(Description = "round_trip_hash")]

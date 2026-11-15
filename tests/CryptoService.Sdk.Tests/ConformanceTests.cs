@@ -36,6 +36,9 @@ public sealed class ConformanceTests(ITestOutputHelper output)
     {
         Assert.False(LiveServer.Url is null, "CRYPTO_SERVICE_URL is unset: make conformance needs a running crypto-server.");
         Assert.False(LiveServer.ApiKey is null, "CRYPTO_SERVICE_API_KEY is unset: make conformance needs the server's API key.");
+        Assert.False(
+            LiveServer.Required && LiveServer.JwtSecret is null,
+            "CRYPTO_SERVICE_JWT_SECRET is unset: make conformance runs every file as its own principal with tokens signed by the server's JWT_SECRET.");
 
         KitFile kit = Kit.Load(file);
         var runner = new VectorRunner(kit.Group);
