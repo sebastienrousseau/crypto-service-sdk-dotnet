@@ -2,4 +2,7 @@
   <Folder Name="/src/">
     <Project Path="src/CryptoService.Sdk/CryptoService.Sdk.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/CryptoService.Sdk.Tests/CryptoService.Sdk.Tests.csproj" />
+  </Folder>
 </Solution>
