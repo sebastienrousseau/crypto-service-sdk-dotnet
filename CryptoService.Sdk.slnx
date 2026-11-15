@@ -11,4 +11,12 @@
   <Folder Name="/benchmarks/">
     <Project Path="benchmarks/CryptoService.Sdk.Benchmarks/CryptoService.Sdk.Benchmarks.csproj" />
   </Folder>
+  <Folder Name="/examples/">
+    <Project Path="examples/AeadRoundTrip/AeadRoundTrip.csproj" />
+    <Project Path="examples/Concurrent/Concurrent.csproj" />
+    <Project Path="examples/ErrorHandling/ErrorHandling.csproj" />
+    <Project Path="examples/Hash/Hash.csproj" />
+    <Project Path="examples/MlKem/MlKem.csproj" />
+    <Project Path="examples/SignVerify/SignVerify.csproj" />
+  </Folder>
 </Solution>
