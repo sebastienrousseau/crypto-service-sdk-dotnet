@@ -1,0 +1,22 @@
+<!-- SPDX-License-Identifier: Apache-2.0 OR MIT -->
+<Project>
+  <!-- Central package management: every package version is pinned here,
+       exactly, and nowhere else. The library itself has no third-party
+       runtime dependency; these are test, fuzz, benchmark and build-time
+       analyser packages. -->
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageVersion Include="BenchmarkDotNet" Version="[0.15.8]" />
+    <PackageVersion Include="coverlet.msbuild" Version="[10.1.0]" />
+    <PackageVersion Include="FsCheck" Version="[3.6.0]" />
+    <PackageVersion Include="FsCheck.Xunit" Version="[3.6.0]" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="[18.12.0]" />
+    <PackageVersion Include="SharpFuzz" Version="[2.3.0]" />
+    <PackageVersion Include="SonarAnalyzer.CSharp" Version="[10.36.0.15337]" />
+    <PackageVersion Include="xunit" Version="[2.9.3]" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="[4.0.1]" />
+  </ItemGroup>
+</Project>
