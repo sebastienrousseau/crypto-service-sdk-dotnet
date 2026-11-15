@@ -8,4 +8,7 @@
   <Folder Name="/fuzz/">
     <Project Path="fuzz/CryptoService.Sdk.Fuzz/CryptoService.Sdk.Fuzz.csproj" />
   </Folder>
+  <Folder Name="/benchmarks/">
+    <Project Path="benchmarks/CryptoService.Sdk.Benchmarks/CryptoService.Sdk.Benchmarks.csproj" />
+  </Folder>
 </Solution>
