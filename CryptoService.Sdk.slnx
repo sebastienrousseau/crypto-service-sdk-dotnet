@@ -1,0 +1,5 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/CryptoService.Sdk/CryptoService.Sdk.csproj" />
+  </Folder>
+</Solution>
