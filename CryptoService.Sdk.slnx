@@ -5,4 +5,7 @@
   <Folder Name="/tests/">
     <Project Path="tests/CryptoService.Sdk.Tests/CryptoService.Sdk.Tests.csproj" />
   </Folder>
+  <Folder Name="/fuzz/">
+    <Project Path="fuzz/CryptoService.Sdk.Fuzz/CryptoService.Sdk.Fuzz.csproj" />
+  </Folder>
 </Solution>

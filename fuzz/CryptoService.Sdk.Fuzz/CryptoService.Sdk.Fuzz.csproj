@@ -1,0 +1,20 @@
+<!-- SPDX-License-Identifier: Apache-2.0 OR MIT -->
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- The SharpFuzz harness for the two parsers that read server bytes:
+       the problem-body parser and the success-response decoder.
+       scripts/fuzz.sh instruments CryptoService.Sdk.dll with the
+       sharpfuzz tool and runs each target under libfuzzer-dotnet. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SharpFuzz" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../src/CryptoService.Sdk/CryptoService.Sdk.csproj" />
+  </ItemGroup>
+</Project>
