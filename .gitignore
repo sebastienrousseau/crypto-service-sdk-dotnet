@@ -1,0 +1,26 @@
+# .NET build output
+bin/
+obj/
+artifacts/
+TestResults/
+*.user
+*.suo
+.vs/
+.idea/
+*.nupkg
+*.snupkg
+dist/
+
+# Fuzzing output
+fuzz/findings/
+fuzz/corpus-out/
+
+# Tooling
+node_modules/
+.venv/
+.DS_Store
+.venv-lint/
+.venv-docs/
+site/
+docs/api/
+__pycache__/
