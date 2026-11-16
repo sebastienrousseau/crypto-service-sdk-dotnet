@@ -40,7 +40,11 @@ free_port() {
 
 checkout="${CRYPTO_SERVICE_CHECKOUT:-}"
 if [ -z "$checkout" ]; then
-  ref="$(cat ci/server.ref)"
+  ref="$(tr -d '[:space:]' < ci/server.ref)"
+  if ! [[ "$ref" =~ ^[0-9a-f]{40}$ ]]; then
+    echo "regression: ci/server.ref must hold a full 40-character commit SHA" >&2
+    exit 1
+  fi
   echo "regression: building crypto-service at $ref"
   checkout="$work/crypto-service"
   git init -q "$checkout"
