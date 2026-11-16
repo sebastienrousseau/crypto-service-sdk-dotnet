@@ -45,7 +45,7 @@ While pre-`1.0`, only the latest `0.0.x` receives fixes.
 
 | Version | Status | Supported |
 | :--- | :--- | :--- |
-| `0.0.40` | Unreleased, in development | Yes, once released |
+| `0.0.40` | Current (first release, 2026-11-16) | Yes |
 
 ## Response times
 

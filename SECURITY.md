@@ -6,11 +6,11 @@
 
 This SDK follows the Crypto Service suite cadence. While pre-`1.0`, the
 latest released `0.0.x` receives security fixes; older `0.0.x` versions
-do not. No version has been released yet: the first will be `0.0.40`.
+do not. `0.0.40` is the first release.
 
 | Version | Status | Receives security fixes? |
 | :--- | :--- | :--- |
-| `0.0.40` | Unreleased, in development | Yes, once released |
+| `0.0.40` | Current (first release, 2026-11-16) | Yes |
 
 ## Reporting a vulnerability
 
