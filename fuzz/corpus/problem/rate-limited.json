@@ -1,0 +1,1 @@
+{"type":"urn:crypto-service:problem:rate-limited","title":"Too many requests","status":429,"detail":"Tenant quota exceeded","limit":60,"resetSeconds":12}

@@ -1,0 +1,22 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/CryptoService.Sdk/CryptoService.Sdk.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/CryptoService.Sdk.Tests/CryptoService.Sdk.Tests.csproj" />
+  </Folder>
+  <Folder Name="/fuzz/">
+    <Project Path="fuzz/CryptoService.Sdk.Fuzz/CryptoService.Sdk.Fuzz.csproj" />
+  </Folder>
+  <Folder Name="/benchmarks/">
+    <Project Path="benchmarks/CryptoService.Sdk.Benchmarks/CryptoService.Sdk.Benchmarks.csproj" />
+  </Folder>
+  <Folder Name="/examples/">
+    <Project Path="examples/AeadRoundTrip/AeadRoundTrip.csproj" />
+    <Project Path="examples/Concurrent/Concurrent.csproj" />
+    <Project Path="examples/ErrorHandling/ErrorHandling.csproj" />
+    <Project Path="examples/Hash/Hash.csproj" />
+    <Project Path="examples/MlKem/MlKem.csproj" />
+    <Project Path="examples/SignVerify/SignVerify.csproj" />
+  </Folder>
+</Solution>

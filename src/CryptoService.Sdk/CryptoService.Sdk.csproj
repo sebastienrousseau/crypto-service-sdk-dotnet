@@ -1,0 +1,46 @@
+<!-- SPDX-License-Identifier: Apache-2.0 OR MIT -->
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>CryptoService.Sdk</RootNamespace>
+    <AssemblyName>CryptoService.Sdk</AssemblyName>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <Deterministic>true</Deterministic>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- The JSON contract is source-generated: no reflection at run time,
+         and the library stays trimming- and AOT-compatible. -->
+    <IsTrimmable>true</IsTrimmable>
+    <IsAotCompatible>true</IsAotCompatible>
+
+    <!-- Packed in CI on every change; published only by
+         .github/workflows/release.yml on a signed tag. -->
+    <IsPackable>true</IsPackable>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <!-- Package validation (ApiCompat) on every pack; scripts/api-compat.sh
+         adds the last published version as the baseline. -->
+    <EnablePackageValidation>true</EnablePackageValidation>
+    <PackageId>CryptoService.Sdk</PackageId>
+    <Version>0.0.40</Version>
+    <Authors>Sebastien Rousseau</Authors>
+    <Description>Typed .NET client for the Crypto Service REST API (crypto-server v2): hashing, AEAD, signatures, post-quantum KEM and signatures, HPKE and KMS calls, with no cryptography in the client.</Description>
+    <PackageLicenseExpression>Apache-2.0 OR MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://crypto-service.co</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/sebastienrousseau/crypto-service-sdk-dotnet</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>cryptography;post-quantum;ml-kem;ml-dsa;hpke;kms;api-client</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="../../README.md" Pack="true" PackagePath="/" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="CryptoService.Sdk.Tests" />
+    <InternalsVisibleTo Include="CryptoService.Sdk.Fuzz" />
+    <InternalsVisibleTo Include="CryptoService.Sdk.Benchmarks" />
+  </ItemGroup>
+</Project>

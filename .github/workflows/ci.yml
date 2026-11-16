@@ -1,0 +1,210 @@
+# SPDX-License-Identifier: Apache-2.0 OR MIT
+#
+# Format; build (warnings as errors, .NET analysers, complexity
+# ceilings) and unit tests with the 100 % coverage gate on three
+# operating systems, plus the ApiCompat pack; the vulnerable-package
+# audit; the Halstead check; the version check; and the conformance
+# kit, every example, every README code block and a benchmark smoke run
+# against crypto-server built from the commit in ci/server.ref.
+# DEVELOPMENT.md maps each job to a local command.
+name: CI
+
+on:
+  push:
+    branches: [main, "feat/*"]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  DOTNET_NOLOGO: "true"
+  DOTNET_CLI_TELEMETRY_OPTOUT: "true"
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: "true"
+
+jobs:
+  format:
+    name: Format
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6.1.0
+        with:
+          global-json-file: global.json
+
+      - name: dotnet format --verify-no-changes
+        run: dotnet format CryptoService.Sdk.slnx --verify-no-changes
+
+  build-test:
+    name: Build and unit tests (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0 # tags, for the ApiCompat baseline
+
+      - uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6.1.0
+        with:
+          global-json-file: global.json
+
+      - name: Build (Release, warnings as errors)
+        run: dotnet build CryptoService.Sdk.slnx -c Release
+
+      - name: Unit tests, 100% line and branch coverage (conformance skips without CRYPTO_SERVICE_URL)
+        run: dotnet test tests/CryptoService.Sdk.Tests -c Release --no-build -p:CollectCoverage=true
+
+      - name: Pack with API compatibility (ApiCompat) against the last release
+        if: matrix.os == 'ubuntu-latest'
+        shell: bash
+        run: scripts/api-compat.sh
+
+  audit:
+    name: Vulnerable packages
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6.1.0
+        with:
+          global-json-file: global.json
+
+      - name: dotnet list package --vulnerable
+        run: |
+          set -euo pipefail
+          dotnet restore CryptoService.Sdk.slnx --locked-mode
+          out="$(dotnet list CryptoService.Sdk.slnx package --vulnerable --include-transitive 2>&1)"
+          echo "$out"
+          if echo "$out" | grep -q "has the following vulnerable packages"; then
+            exit 1
+          fi
+
+  complexity:
+    name: Complexity (Halstead difficulty; the build enforces the rest)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+
+      - name: scripts/halstead.py (ceiling 30)
+        run: |
+          python -m venv "$RUNNER_TEMP/lint"
+          "$RUNNER_TEMP/lint/bin/pip" install --require-hashes --no-deps -r ci/lint-requirements.txt
+          "$RUNNER_TEMP/lint/bin/python" scripts/halstead.py
+
+  versions:
+    name: Release versions agree
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: scripts/verify-release-versions
+        run: scripts/verify-release-versions
+
+  conformance:
+    name: Conformance kit against crypto-server
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      CRYPTO_SERVICE_URL: http://127.0.0.1:3000
+      # Synthetic credentials for a loopback server that lives for this job.
+      CRYPTO_SERVICE_API_KEY: ci-conformance-key-0123456789abcdef
+      CRYPTO_SERVICE_JWT_SECRET: ci-conformance-jwt-secret-0123456789abcdef
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      # ci/server.ref comes from the pull request, so it is checked to be
+      # a full commit SHA and fetched with git rather than handed to
+      # actions/checkout as a ref.
+      - name: Check out crypto-server at the commit in ci/server.ref
+        run: |
+          ref="$(tr -d '[:space:]' < ci/server.ref)"
+          if ! [[ "$ref" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "ci/server.ref must hold a full 40-character commit SHA" >&2
+            exit 1
+          fi
+          git init -q server
+          git -C server fetch -q --depth 1 \
+            https://github.com/sebastienrousseau/crypto-service.git "$ref"
+          git -C server checkout -q --detach FETCH_HEAD
+          test "$(git -C server rev-parse HEAD)" = "$ref"
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "24"
+
+      - uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
+        with:
+          version: 11.9.0
+
+      - name: Build crypto-server
+        working-directory: server
+        run: pnpm install --frozen-lockfile && pnpm -r run build
+
+      - name: Start crypto-server
+        working-directory: server/packages/crypto-server
+        run: |
+          set -euo pipefail
+          PORT=3000 HOST=127.0.0.1 NODE_ENV=development RATE_LIMIT_MAX=100000 \
+            CRYPTO_API_KEY="$CRYPTO_SERVICE_API_KEY" JWT_SECRET="$CRYPTO_SERVICE_JWT_SECRET" \
+            nohup node dist/index.js > "$RUNNER_TEMP/server.log" 2>&1 &
+          for _ in $(seq 1 60); do
+            if curl -fsS "$CRYPTO_SERVICE_URL/health" > /dev/null; then
+              echo "crypto-server is up"
+              exit 0
+            fi
+            sleep 1
+          done
+          cat "$RUNNER_TEMP/server.log"
+          exit 1
+
+      - uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6.1.0
+        with:
+          global-json-file: global.json
+
+      - name: Build
+        run: dotnet build CryptoService.Sdk.slnx -c Release
+
+      - name: Conformance kit (fails, not skips, without the server)
+        run: make conformance
+
+      - name: Every example against the server
+        run: scripts/run-examples.sh
+
+      - name: Every README code block against the server
+        run: scripts/readme-snippets.sh
+
+      - name: Benchmark smoke run (one iteration each, not asserted)
+        run: make bench-smoke
+
+      - name: Server log
+        if: always()
+        run: cat "$RUNNER_TEMP/server.log" || true
