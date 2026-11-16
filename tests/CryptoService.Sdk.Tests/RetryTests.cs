@@ -37,9 +37,12 @@ public sealed class RetryTests
 
         Assert.Equal("00", result.Digest);
         Assert.Equal(3, handler.Requests.Count);
-        Assert.Equal(2, time.Delays.Count);
-        Assert.InRange(time.Delays[0], TimeSpan.Zero, TimeSpan.FromMilliseconds(200));
-        Assert.InRange(time.Delays[1], TimeSpan.Zero, TimeSpan.FromMilliseconds(400));
+
+        // Full jitter can draw a wait under 1 ms, which Task.Delay ends at
+        // once without a timer, so a wait can go unrecorded. The ceiling of
+        // each draw is PropertyTests.TheBackoffStaysUnderItsCeiling's job.
+        Assert.InRange(time.Delays.Count, 0, 2);
+        Assert.All(time.Delays, d => Assert.InRange(d, TimeSpan.Zero, TimeSpan.FromMilliseconds(400)));
     }
 
     [Theory]
@@ -279,7 +282,11 @@ public sealed class RetryTests
     [Fact]
     public async Task AWaitThatEndsAsTheTokenIsCancelledSendsNothingMore()
     {
-        StubHandler handler = Statuses(HttpStatusCode.ServiceUnavailable);
+        // Retry-After fixes the wait at 1 s, so a timer is always created and
+        // OnDelay always cancels; a jittered backoff under 1 ms makes no
+        // timer, and the client would retry before anything cancels.
+        StubHandler handler = StubHandler.Sequence(
+            () => StubHandler.RetryAfter(HttpStatusCode.ServiceUnavailable, new RetryConditionHeaderValue(TimeSpan.FromSeconds(1))));
         using var cancel = new CancellationTokenSource();
         var time = new InstantTimeProvider { OnDelay = cancel.Cancel };
         using CryptoServiceClient client = Client(handler, time, maxRetries: 3);
