@@ -69,6 +69,17 @@ internal sealed class StubHandler : HttpMessageHandler
     internal static HttpResponseMessage Response(HttpStatusCode status, string body, string mediaType = "application/json") =>
         new(status) { Content = new StringContent(body, Encoding.UTF8, mediaType) };
 
+    /// <summary>A response with this status and no content; HttpClient owns and disposes it.</summary>
+    internal static HttpResponseMessage Status(HttpStatusCode status) => new(status);
+
+    /// <summary>A redirect to <paramref name="location"/> with no content.</summary>
+    internal static HttpResponseMessage Redirect(HttpStatusCode status, Uri location)
+    {
+        HttpResponseMessage response = Status(status);
+        response.Headers.Location = location;
+        return response;
+    }
+
     /// <summary>A response with this status, an empty body and a <c>Retry-After</c>.</summary>
     internal static HttpResponseMessage RetryAfter(HttpStatusCode status, RetryConditionHeaderValue? retryAfter)
     {

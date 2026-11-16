@@ -100,13 +100,13 @@ public sealed class OperationTests
     // Every Get*Bytes() method of the result decodes its field.
     private static void DecodeEveryBinaryField(object result)
     {
-        foreach (MethodInfo method in result.GetType().GetMethods(BindingFlags.Public | BindingFlags.Instance))
+        IEnumerable<MethodInfo> decoders = result.GetType()
+            .GetMethods(BindingFlags.Public | BindingFlags.Instance)
+            .Where(m => m.Name.StartsWith("Get", StringComparison.Ordinal) && m.Name.EndsWith("Bytes", StringComparison.Ordinal));
+        foreach (MethodInfo method in decoders)
         {
-            if (method.Name.StartsWith("Get", StringComparison.Ordinal) && method.Name.EndsWith("Bytes", StringComparison.Ordinal))
-            {
-                byte[] bytes = (byte[])method.Invoke(result, null)!;
-                Assert.Equal(new byte[] { 0x00, 0xff }, bytes);
-            }
+            byte[] bytes = (byte[])method.Invoke(result, null)!;
+            Assert.Equal(new byte[] { 0x00, 0xff }, bytes);
         }
     }
 }

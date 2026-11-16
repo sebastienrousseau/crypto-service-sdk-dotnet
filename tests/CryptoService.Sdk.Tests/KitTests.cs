@@ -15,9 +15,8 @@ public sealed class KitTests
         string[] pinned = File.ReadAllLines(Path.Join(Kit.Root, "SHA256SUMS"));
         var listed = new SortedSet<string>(StringComparer.Ordinal);
 
-        foreach (string line in pinned)
+        foreach (string[] parts in pinned.Select(line => line.Split("  ", 2)))
         {
-            string[] parts = line.Split("  ", 2);
             listed.Add(parts[1]);
             byte[] hash = SHA256.HashData(File.ReadAllBytes(Path.Join(Kit.Root, parts[1])));
             Assert.Equal(parts[0], Convert.ToHexStringLower(hash));

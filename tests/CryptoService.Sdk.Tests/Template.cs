@@ -73,7 +73,7 @@ internal static class Template
                 Expect(a.ValueKind == JsonValueKind.String && a.GetString() == Fill(t.GetString()!, captured), t, a, at, found);
                 break;
             case JsonValueKind.Number:
-                Expect(a.ValueKind == JsonValueKind.Number && a.GetDouble() == t.GetDouble(), t, a, at, found);
+                Expect(JsonElement.DeepEquals(a, t), t, a, at, found);
                 break;
             default:
                 Expect(a.ValueKind == t.ValueKind, t, a, at, found);
@@ -204,12 +204,9 @@ internal static class Schema
     {
         if (schema.TryGetProperty("required", out JsonElement required))
         {
-            foreach (JsonElement name in required.EnumerateArray())
+            foreach (JsonElement name in required.EnumerateArray().Where(n => !value.TryGetProperty(n.GetString()!, out _)))
             {
-                if (!value.TryGetProperty(name.GetString()!, out _))
-                {
-                    found.Add($"{at}/{name.GetString()}: missing");
-                }
+                found.Add($"{at}/{name.GetString()}: missing");
             }
         }
 

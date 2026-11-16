@@ -158,7 +158,7 @@ public sealed partial class ClientTests
     [Fact]
     public async Task RequestAsyncSendsNoBodyWhenGivenNone()
     {
-        var handler = new StubHandler((_, _) => Task.FromResult(new HttpResponseMessage(HttpStatusCode.NoContent)));
+        var handler = new StubHandler((_, _) => Task.FromResult(StubHandler.Status(HttpStatusCode.NoContent)));
         using CryptoServiceClient client = StubHandler.Client(handler);
 
         RawResponse raw = await client.RequestAsync("GET", "/metrics");
@@ -220,11 +220,7 @@ public sealed partial class ClientTests
     public async Task ARedirectAnswerIsAnErrorNotFollowed()
     {
         var handler = new StubHandler((_, _) =>
-        {
-            var response = new HttpResponseMessage(HttpStatusCode.Found);
-            response.Headers.Location = new Uri("http://elsewhere.test/");
-            return Task.FromResult(response);
-        });
+            Task.FromResult(StubHandler.Redirect(HttpStatusCode.Found, new Uri("http://elsewhere.test/"))));
         using CryptoServiceClient client = StubHandler.Client(handler);
 
         CryptoApiException error = await Assert.ThrowsAsync<CryptoApiException>(() => client.HealthAsync());
