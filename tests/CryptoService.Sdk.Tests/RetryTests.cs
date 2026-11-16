@@ -241,12 +241,16 @@ public sealed class RetryTests
     [Fact]
     public async Task TheDeadlineCanExpireDuringARetryWait()
     {
-        StubHandler handler = Statuses(HttpStatusCode.ServiceUnavailable);
+        // Retry-After fixes the wait at 1 s, inside the 1.1 s deadline, so the
+        // client always starts waiting; the frozen clock never ends the wait,
+        // so the deadline does. A jittered backoff could round to no wait.
+        StubHandler handler = StubHandler.Sequence(
+            () => StubHandler.RetryAfter(HttpStatusCode.ServiceUnavailable, new RetryConditionHeaderValue(TimeSpan.FromSeconds(1))));
         using CryptoServiceClient client = StubHandler.Client(handler, o =>
         {
             o.TimeProvider = new FrozenTimeProvider();
-            o.Deadline = TimeSpan.FromMilliseconds(100);
-            o.Retry = new RetryOptions { MaxRetries = 1, InitialDelay = TimeSpan.FromMilliseconds(50) };
+            o.Deadline = TimeSpan.FromMilliseconds(1100);
+            o.Retry = new RetryOptions { MaxRetries = 1, MaxDelay = TimeSpan.FromSeconds(5) };
         });
 
         CryptoTransportException error = await Assert.ThrowsAsync<CryptoTransportException>(() => HashAsync(client));
