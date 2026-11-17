@@ -224,6 +224,14 @@ jobs:
       contents: read
       id-token: write # exchange the OIDC token for a short-lived NuGet key
     steps:
+      # setup-dotnet reads the SDK pin from global.json, which only a
+      # checkout provides; fetch that one file.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          sparse-checkout: global.json
+          sparse-checkout-cone-mode: false
+
       - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: release
