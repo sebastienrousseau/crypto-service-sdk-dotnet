@@ -43,6 +43,9 @@ The version follows the Crypto Service suite and moves by `0.0.1`.
 
 ### Changed
 
+- `RequestAsync` throws `ArgumentException` naming `method` for a method
+  that is not an HTTP token (a space, a line break), as for its other
+  arguments, instead of an undocumented `FormatException`.
 - The roadmap looks a year ahead and lists the non-goals.
 - The README and the getting-started page no longer say the package is
   not yet on NuGet; the ApiCompat check now compares with the
