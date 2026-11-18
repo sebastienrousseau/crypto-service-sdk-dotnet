@@ -234,6 +234,9 @@ public sealed partial class ClientTests
         using CryptoServiceClient client = StubHandler.Client(handler);
 
         await Assert.ThrowsAsync<ArgumentException>(() => client.RequestAsync("", "/"));
+        ArgumentException badMethod = await Assert.ThrowsAsync<ArgumentException>(() => client.RequestAsync("GE T", "/health"));
+        Assert.Equal("method", badMethod.ParamName);
+        await Assert.ThrowsAsync<ArgumentException>(() => client.RequestAsync("GET\r\n", "/health"));
         await Assert.ThrowsAsync<ArgumentException>(() => client.RequestAsync("GET", ""));
         await Assert.ThrowsAsync<ArgumentException>(() => client.RequestAsync("GET", "health"));
         await Assert.ThrowsAsync<ArgumentException>(
