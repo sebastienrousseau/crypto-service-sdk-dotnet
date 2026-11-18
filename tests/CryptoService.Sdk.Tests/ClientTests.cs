@@ -75,8 +75,8 @@ public sealed partial class ClientTests
         await client.HashAsync(new HashRequest { Algorithm = "sha256", Data = "a" });
 
         SentRequest sent = handler.Last;
-        Assert.Equal("crypto-service-sdk-dotnet/0.0.40", sent.Header("User-Agent"));
-        Assert.Equal("crypto-service-sdk-dotnet/0.0.40", CryptoServiceClient.UserAgent);
+        Assert.Equal("crypto-service-sdk-dotnet/0.0.41", sent.Header("User-Agent"));
+        Assert.Equal("crypto-service-sdk-dotnet/0.0.41", CryptoServiceClient.UserAgent);
         Assert.Equal(["application/json", "application/problem+json"], sent.Headers.Accept.Select(a => a.MediaType));
         Assert.Equal(HttpVersion.Version20, sent.Version);
         Assert.Equal(HttpVersionPolicy.RequestVersionOrLower, sent.VersionPolicy);

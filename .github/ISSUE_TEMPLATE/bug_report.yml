@@ -15,7 +15,7 @@ body:
     id: version
     attributes:
       label: crypto-service-sdk-dotnet version
-      placeholder: "0.0.40"
+      placeholder: "0.0.41"
     validations:
       required: true
   - type: dropdown

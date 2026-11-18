@@ -9,7 +9,9 @@ the client itself. It is a plan, not a promise; the
 [CHANGELOG](https://github.com/sebastienrousseau/crypto-service-sdk-dotnet/blob/main/CHANGELOG.md)
 records what shipped.
 
-## 0.0.40 (this release)
+## 0.0.41 (in preparation)
+
+## 0.0.40 (released 2026-11-16)
 
 - First NuGet release of `CryptoService.Sdk`, by trusted publishing.
 - Every v2 operation (59), the probes and the compliance documents.

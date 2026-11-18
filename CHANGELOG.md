@@ -9,6 +9,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 The version follows the Crypto Service suite and moves by `0.0.1`.
 
+## [0.0.41] - Unreleased
+
 ## [0.0.40] - 2026-11-16
 
 ### Added

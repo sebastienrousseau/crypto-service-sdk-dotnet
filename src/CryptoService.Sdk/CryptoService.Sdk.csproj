@@ -24,7 +24,7 @@
          adds the last published version as the baseline. -->
     <EnablePackageValidation>true</EnablePackageValidation>
     <PackageId>CryptoService.Sdk</PackageId>
-    <Version>0.0.40</Version>
+    <Version>0.0.41</Version>
     <Authors>Sebastien Rousseau</Authors>
     <Description>Typed .NET client for the Crypto Service REST API (crypto-server v2): hashing, AEAD, signatures, post-quantum KEM and signatures, HPKE and KMS calls, with no cryptography in the client.</Description>
     <PackageLicenseExpression>Apache-2.0 OR MIT</PackageLicenseExpression>

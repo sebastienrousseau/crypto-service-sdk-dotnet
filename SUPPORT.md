@@ -46,7 +46,8 @@ While pre-`1.0`, only the latest `0.0.x` receives fixes.
 
 | Version | Status | Supported |
 | :--- | :--- | :--- |
-| `0.0.40` | Current (first release, 2026-11-16) | Yes |
+| `0.0.41` | Current (in preparation on `main`) | Yes |
+| `0.0.40` | First release (2026-11-16), latest on NuGet | Yes, until 0.0.41 is out |
 
 ## Response times
 

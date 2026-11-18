@@ -63,19 +63,21 @@
 ### As a .NET library
 
 ```xml
-<PackageReference Include="CryptoService.Sdk" Version="0.0.40" />
+<PackageReference Include="CryptoService.Sdk" Version="0.0.41" />
 ```
 
 Or from the command line:
 
 ```sh
-dotnet add package CryptoService.Sdk --version 0.0.40
+dotnet add package CryptoService.Sdk --version 0.0.41
 ```
 
-0.0.40 is the first release of this SDK; until it is on NuGet,
-reference the project from a clone
-(`src/CryptoService.Sdk/CryptoService.Sdk.csproj`). The SDK calls a
-running crypto-server: build and start it from
+The package is on
+[NuGet](https://www.nuget.org/packages/CryptoService.Sdk) from 0.0.40;
+the snippets name the version `main` prepares, so use the newest
+published one until it is out, or reference
+`src/CryptoService.Sdk/CryptoService.Sdk.csproj` from a clone. The SDK
+calls a running crypto-server: build and start it from
 [crypto-service](https://github.com/sebastienrousseau/crypto-service)
 (`packages/crypto-server`), as [DEVELOPMENT.md](DEVELOPMENT.md#a-server)
 shows.
@@ -162,7 +164,7 @@ client against a running server.
 | Service | `HealthAsync`, `LiveAsync`, `ReadyAsync`, `AlgorithmsAsync`, `GetServiceInfoAsync`, CBOM and DORA documents | Available |
 | Low level | `RequestAsync`: any method and path, the answer returned whatever its status | Available |
 | Resilience | Per-attempt timeout, call deadline, opt-in retries with the suite's retry-safety table, W3C `traceparent` | Available |
-| Publication | NuGet package `CryptoService.Sdk` | Release workflow ready; first publication with 0.0.40 |
+| Publication | NuGet package `CryptoService.Sdk`, by trusted publishing, with an SBOM, checksums and build provenance | Available from 0.0.40 |
 
 Every v2 operation of the OpenAPI document is covered: 59 of 59.
 

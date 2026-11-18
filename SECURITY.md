@@ -6,12 +6,14 @@
 ## Supported versions
 
 This SDK follows the Crypto Service suite cadence. While pre-`1.0`, the
-latest released `0.0.x` receives security fixes; older `0.0.x` versions
-do not. `0.0.40` is the first release.
+latest released `0.0.x` receives security fixes; an older `0.0.x` is
+fixed by upgrading, since each step is `0.0.1`. `0.0.40` was the first
+release.
 
 | Version | Status | Receives security fixes? |
 | :--- | :--- | :--- |
-| `0.0.40` | Current (first release, 2026-11-16) | Yes |
+| `0.0.41` | Current (in preparation on `main`) | Yes |
+| `0.0.40` | First release (2026-11-16), latest on NuGet | Yes, until 0.0.41 is out |
 
 ## Reporting a vulnerability
 
