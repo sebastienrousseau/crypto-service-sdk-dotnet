@@ -26,9 +26,14 @@ and a build provenance attestation for the packages
 ## Package validation
 
 Every `dotnet pack` runs .NET package validation. `scripts/api-compat.sh`
-adds the newest published version as the ApiCompat baseline, so a
-breaking change to the public API fails CI; until the first release is
-published there is no baseline and the script says so.
+adds the newest published version older than the one being built (0.0.40
+from the 0.0.41 iteration on) as the ApiCompat baseline, so a breaking
+change to the public API fails CI.
+
+## Reproducing a release
+
+[REPRODUCING.md](REPRODUCING.md) rebuilds a released package from its
+tag and compares it with the GitHub release's assets.
 
 ## No other distribution
 

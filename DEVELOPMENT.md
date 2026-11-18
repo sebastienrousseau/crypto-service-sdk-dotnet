@@ -154,11 +154,15 @@ the only pull request into `main`. A release:
    packs, writes the CycloneDX SBOM (`.cdx.json`) and `SHA256SUMS`,
    attests build provenance, creates the GitHub release titled
    `crypto-service-sdk-dotnet 0.0.N`, checks its sections, and
-   publishes to NuGet.
+   publishes to NuGet. Before the checksums, it pins the zip entry
+   times and the SBOM's serial number and timestamp to the tagged
+   commit (`scripts/normalise-release.py`), so
+   `scripts/reproduce-release.sh <version>` rebuilds every asset byte
+   for byte ([docs/REPRODUCING.md](docs/REPRODUCING.md)).
 
-### Settings and secrets the maintainer creates
+### Settings and secrets the maintainer created
 
-None of these exist yet; the workflows are ready for them.
+All of these are in place; 0.0.40 was released through them.
 
 | What | Where | Why |
 | :--- | :--- | :--- |
