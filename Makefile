@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0 OR MIT
+# SPDX-FileCopyrightText: 2026 Sebastien Rousseau
 #
 # `make check` runs every local gate CI runs that needs no server:
 # format, build (warnings as errors, .NET analysers, CA1502 and

@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # SPDX-License-Identifier: Apache-2.0 OR MIT
+# SPDX-FileCopyrightText: 2026 Sebastien Rousseau
 #
 # Runs one SharpFuzz target under libfuzzer-dotnet for a bounded time:
 # builds the harness (fuzz/CryptoService.Sdk.Fuzz), instruments

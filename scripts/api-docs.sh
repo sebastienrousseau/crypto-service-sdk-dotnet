@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # SPDX-License-Identifier: Apache-2.0 OR MIT
+# SPDX-FileCopyrightText: 2026 Sebastien Rousseau
 #
 # Renders the API reference for the manual: scripts/api_docs.py reads the
 # XML documentation file the build writes beside CryptoService.Sdk.dll and

@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0 OR MIT
+# SPDX-FileCopyrightText: 2026 Sebastien Rousseau
 # Python tools for the lint jobs: codespell and reuse (docs-lint),
 # pygments (scripts/halstead.py). Regenerate lint-requirements.txt with:
 #   uv pip compile --generate-hashes --python-version 3.12 ci/lint-requirements.in -o ci/lint-requirements.txt

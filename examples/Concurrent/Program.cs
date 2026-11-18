@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0 OR MIT
+// SPDX-FileCopyrightText: 2026 Sebastien Rousseau
 //
 // Many calls in flight on one client: the client is safe to share, its
 // pooled handler reuses connections, and each call has its own timeout

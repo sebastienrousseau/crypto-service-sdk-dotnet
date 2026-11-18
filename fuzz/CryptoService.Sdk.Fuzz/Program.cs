@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0 OR MIT
+// SPDX-FileCopyrightText: 2026 Sebastien Rousseau
 //
 // Fuzz targets for the bytes a server sends back. Each one fails only by
 // crashing: an exception other than the documented one is a finding.

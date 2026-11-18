@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0 OR MIT
+# SPDX-FileCopyrightText: 2026 Sebastien Rousseau
 #
 # Cheap checks on prose and licensing: markdownlint, codespell, and
 # REUSE (every file carries machine-readable licence and copyright).

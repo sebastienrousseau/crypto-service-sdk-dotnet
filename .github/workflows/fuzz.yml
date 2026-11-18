@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0 OR MIT
+# SPDX-FileCopyrightText: 2026 Sebastien Rousseau
 #
 # A fuzz smoke run of both SharpFuzz targets, 60 seconds each, under the
 # pinned libfuzzer-dotnet driver (scripts/fuzz.sh). A crash fails the

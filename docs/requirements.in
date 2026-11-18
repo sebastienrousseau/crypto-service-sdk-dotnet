@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0 OR MIT
+# SPDX-FileCopyrightText: 2026 Sebastien Rousseau
 # The manual's build tools. Regenerate docs/requirements.txt with:
 #   uv pip compile --generate-hashes --python-version 3.12 docs/requirements.in -o docs/requirements.txt
 mkdocs==1.6.1
