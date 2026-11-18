@@ -13,7 +13,7 @@
 SOLUTION := CryptoService.Sdk.slnx
 CONFIG   := Release
 
-.PHONY: check format format-fix build test coverage audit verify-versions conformance examples readme bench bench-smoke fuzz regression demo docs docs-lint codespell reuse halstead
+.PHONY: check format format-fix build test coverage audit verify-versions conformance examples readme bench bench-smoke fuzz regression demo docs docs-lint codespell reuse halstead script-tests
 
 check: format build coverage audit verify-versions halstead
 
@@ -122,6 +122,10 @@ $(LINT_VENV)/.installed: ci/lint-requirements.txt
 # the other complexity ceilings (CA1502, SonarAnalyzer S3776/S138/S104).
 halstead: $(LINT_VENV)/.installed
 	$(LINT_VENV)/bin/python scripts/halstead.py
+
+# Unit tests of the release-normalising script (standard library only).
+script-tests:
+	python3 -m unittest discover -s scripts/tests -v
 
 # markdownlint, codespell and REUSE, as the docs-lint workflow runs them.
 docs-lint: codespell reuse

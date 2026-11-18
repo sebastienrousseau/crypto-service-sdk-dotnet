@@ -61,6 +61,7 @@ and the examples retry a 429 within its short `Retry-After`.
 | Version references agree | `make verify-versions` | `ci.yml` Release versions agree |
 | API compatibility (ApiCompat) | `scripts/api-compat.sh` | `ci.yml` Build and unit tests (Linux) |
 | Halstead difficulty ≤ 30 | `make halstead` | `ci.yml` Complexity |
+| Unit tests of `scripts/normalise-release.py` | `make script-tests` | `ci.yml` Complexity |
 | Conformance kit against a server | `make conformance` | `ci.yml` Conformance |
 | Every example against a server | `make examples` | `ci.yml` Conformance |
 | Every README code block against a server | `make readme` | `ci.yml` Conformance |
