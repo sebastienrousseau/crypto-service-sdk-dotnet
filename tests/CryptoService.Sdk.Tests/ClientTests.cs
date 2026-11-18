@@ -66,6 +66,63 @@ public sealed partial class ClientTests
         Assert.Contains("BaseUrl = http://crypto.test:3105", client.ToString(), StringComparison.Ordinal);
     }
 
+    [Theory]
+    [InlineData("https://synthetic-user:synthetic-secret@crypto.test")]
+    [InlineData("https://crypto.test/?tenant=a")]
+    [InlineData("https://crypto.test/#top")]
+    public void ABaseUrlWithUserInfoAQueryOrAFragmentIsRefused(string baseUrl)
+    {
+        // Each would build every request's URL wrongly: user info is not how
+        // the SDK authenticates and would show in ToString(); a query or a
+        // fragment would swallow the route.
+        ArgumentException error = Assert.Throws<ArgumentException>(
+            () => new CryptoServiceClient(Options(o => o.BaseUrl = new Uri(baseUrl))));
+
+        Assert.DoesNotContain("synthetic-secret", error.Message, StringComparison.Ordinal);
+    }
+
+    [Theory]
+    [InlineData("apiKey", "synthetic-secret\r\nx-injected: 1")]
+    [InlineData("token", "synthetic-secret\nx-injected: 1")]
+    [InlineData("traceparent", "00-0af7651916cd43dd8448eb211c80319c-b7ad6b7169203331-01\r\nx-injected: 1")]
+    [InlineData("apiKey", "synthetic-secret\0")]
+    public void AHeaderValueWithAControlCharacterIsRefused(string which, string value)
+    {
+        // HttpClient writes a value added without validation to the wire as
+        // is, so a line break would inject a header into every request.
+        ArgumentException error = Assert.Throws<ArgumentException>(() => new CryptoServiceClient(Options(o =>
+        {
+            switch (which)
+            {
+                case "apiKey":
+                    o.ApiKey = value;
+                    break;
+                case "token":
+                    o.Token = value;
+                    break;
+                default:
+                    o.Traceparent = value;
+                    break;
+            }
+        })));
+
+        Assert.DoesNotContain("synthetic-secret", error.Message, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void TheOptionsNeverShowTheBaseUrlsUserInfo()
+    {
+        CryptoServiceClientOptions options = Options(
+            o => o.BaseUrl = new Uri("https://synthetic-user:synthetic-secret@crypto.test:3105/crypto"));
+
+        string described = options.ToString();
+
+        Assert.DoesNotContain("synthetic-", described, StringComparison.Ordinal);
+        Assert.Contains("BaseUrl = https://(user info redacted)@crypto.test:3105/crypto", described, StringComparison.Ordinal);
+        Assert.Contains("BaseUrl = /relative,", Options(o => o.BaseUrl = new Uri("/relative", UriKind.Relative)).ToString(), StringComparison.Ordinal);
+        Assert.Contains("BaseUrl = ,", new CryptoServiceClientOptions().ToString(), StringComparison.Ordinal);
+    }
+
     [Fact]
     public async Task EveryRequestCarriesTheUserAgentAcceptAndHttp2Policy()
     {
@@ -173,11 +230,15 @@ public sealed partial class ClientTests
     [Fact]
     public async Task RequestAsyncChecksItsArguments()
     {
-        using CryptoServiceClient client = StubHandler.Client(StubHandler.Answer(HttpStatusCode.OK, "{}"));
+        var handler = StubHandler.Answer(HttpStatusCode.OK, "{}");
+        using CryptoServiceClient client = StubHandler.Client(handler);
 
         await Assert.ThrowsAsync<ArgumentException>(() => client.RequestAsync("", "/"));
         await Assert.ThrowsAsync<ArgumentException>(() => client.RequestAsync("GET", ""));
         await Assert.ThrowsAsync<ArgumentException>(() => client.RequestAsync("GET", "health"));
+        await Assert.ThrowsAsync<ArgumentException>(
+            () => client.RequestAsync("POST", "/v2/hash", Encoding.UTF8.GetBytes("{}"), "application/json\r\nx-injected: 1"));
+        Assert.Empty(handler.Requests);
     }
 
     [Fact]

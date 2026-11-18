@@ -80,11 +80,22 @@ public sealed class CryptoServiceClientOptions
 
     /// <summary>
     /// Describes the options with the credentials redacted: the API key and
-    /// token appear as <c>set</c> or <c>unset</c>, never their value.
+    /// token appear as <c>set</c> or <c>unset</c>, never their value, and
+    /// user info in the base URL (which the client refuses) is redacted.
     /// </summary>
     /// <returns>A description safe to log.</returns>
     public override string ToString() =>
-        $"CryptoServiceClientOptions {{ BaseUrl = {BaseUrl}, ApiKey = {Redact(ApiKey)}, Token = {Redact(Token)}, Timeout = {Timeout}, Deadline = {Deadline?.ToString() ?? "none"}, Retry = {Retry} }}";
+        $"CryptoServiceClientOptions {{ BaseUrl = {Describe(BaseUrl)}, ApiKey = {Redact(ApiKey)}, Token = {Redact(Token)}, Timeout = {Timeout}, Deadline = {Deadline?.ToString() ?? "none"}, Retry = {Retry} }}";
 
     private static string Redact(string? secret) => secret is null ? "unset" : "set (redacted)";
+
+    private static string? Describe(Uri? url)
+    {
+        if (url is null || !url.IsAbsoluteUri || url.UserInfo.Length == 0)
+        {
+            return url?.ToString();
+        }
+
+        return url.AbsoluteUri.Replace(url.UserInfo + "@", "(user info redacted)@", StringComparison.Ordinal);
+    }
 }
