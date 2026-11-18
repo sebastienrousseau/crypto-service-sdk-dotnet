@@ -64,6 +64,7 @@ public sealed class GenerateKeyResult
 
     /// <summary>The public key's bytes.</summary>
     /// <returns>The decoded <see cref="PublicKey"/>.</returns>
+    /// <exception cref="FormatException">The server sent a value that is not valid hex.</exception>
     public byte[] GetPublicKeyBytes() => Convert.FromHexString(PublicKey);
 }
 
@@ -84,6 +85,7 @@ public sealed class KeyPairResult
 
     /// <summary>The public key's bytes.</summary>
     /// <returns>The decoded <see cref="PublicKey"/>.</returns>
+    /// <exception cref="FormatException">The server sent a value that is not valid hex.</exception>
     public byte[] GetPublicKeyBytes() => Convert.FromHexString(PublicKey);
 }
 
@@ -177,6 +179,7 @@ public sealed class SignResult
 
     /// <summary>The signature's bytes.</summary>
     /// <returns>The decoded <see cref="Signature"/>.</returns>
+    /// <exception cref="FormatException">The server sent a value that is not valid hex.</exception>
     public byte[] GetSignatureBytes() => Convert.FromHexString(Signature);
 }
 

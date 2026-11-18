@@ -164,6 +164,7 @@ public sealed class KmsDecryptResult
 
     /// <summary>The plaintext's exact bytes.</summary>
     /// <returns>The decoded <see cref="Hex"/>.</returns>
+    /// <exception cref="FormatException">The server sent a value that is not valid hex.</exception>
     public byte[] GetPlaintextBytes() => Convert.FromHexString(Hex);
 }
 
@@ -205,6 +206,7 @@ public sealed class KmsDataKey
 
     /// <summary>The data key's bytes.</summary>
     /// <returns>The decoded <see cref="Plaintext"/>.</returns>
+    /// <exception cref="FormatException">The server sent a value that is not valid hex.</exception>
     public byte[] GetPlaintextBytes() => Convert.FromHexString(Plaintext);
 }
 
@@ -282,5 +284,6 @@ public sealed class KmsUnwrapResult
 
     /// <summary>The key's bytes.</summary>
     /// <returns>The decoded <see cref="UnwrappedKey"/>.</returns>
+    /// <exception cref="FormatException">The server sent a value that is not valid hex.</exception>
     public byte[] GetUnwrappedKeyBytes() => Convert.FromHexString(UnwrappedKey);
 }

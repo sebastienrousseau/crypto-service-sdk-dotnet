@@ -130,6 +130,7 @@ public sealed class StreamMultiPqEncryptResult
 
     /// <summary>The ciphertext's bytes.</summary>
     /// <returns>The decoded <see cref="Ciphertext"/>.</returns>
+    /// <exception cref="FormatException">The server sent a value that is not valid base64.</exception>
     public byte[] GetCiphertextBytes() => Convert.FromBase64String(Ciphertext);
 }
 
@@ -342,5 +343,6 @@ public sealed class HpkeOpenResult
 
     /// <summary>The plaintext's exact bytes.</summary>
     /// <returns>The decoded <see cref="Hex"/>.</returns>
+    /// <exception cref="FormatException">The server sent a value that is not valid hex.</exception>
     public byte[] GetPlaintextBytes() => Convert.FromHexString(Hex);
 }

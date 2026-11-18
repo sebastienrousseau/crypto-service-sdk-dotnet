@@ -37,6 +37,7 @@ public sealed class HashResult
 
     /// <summary>The digest's bytes.</summary>
     /// <returns>The decoded <see cref="Digest"/>.</returns>
+    /// <exception cref="FormatException">The server sent a value that is not valid hex.</exception>
     public byte[] GetDigestBytes() => Convert.FromHexString(Digest);
 }
 
@@ -69,6 +70,7 @@ public sealed class HmacResult
 
     /// <summary>The MAC's bytes.</summary>
     /// <returns>The decoded <see cref="Mac"/>.</returns>
+    /// <exception cref="FormatException">The server sent a value that is not valid hex.</exception>
     public byte[] GetMacBytes() => Convert.FromHexString(Mac);
 }
 
@@ -161,6 +163,7 @@ public sealed class KdfResult
 
     /// <summary>The derived key's bytes.</summary>
     /// <returns>The decoded <see cref="DerivedKey"/>.</returns>
+    /// <exception cref="FormatException">The server sent a value that is not valid hex.</exception>
     public byte[] GetDerivedKeyBytes() => Convert.FromHexString(DerivedKey);
 }
 
