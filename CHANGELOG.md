@@ -11,6 +11,43 @@ The version follows the Crypto Service suite and moves by `0.0.1`.
 
 ## [0.0.41] - Unreleased
 
+### Security
+
+- The client refuses an API key, a token or a `traceparent` holding a
+  line break or a NUL, and `RequestAsync` a media type holding one:
+  `HttpClient` sent such a value as is, injecting a header into every
+  request (security review SR-1).
+- The client refuses a base URL with user info, a query or a fragment.
+  User info appeared in `ToString()`, and a query or a fragment sent
+  every call to the server's root path; the options now redact user
+  info when described (SR-2).
+- A publishing run of the release workflow must start from its tag, and
+  must build with exactly the .NET SDK `global.json` pins (SR-3, SR-4).
+
+### Added
+
+- `docs/ASSURANCE.md`, the assurance case: threat model, trust
+  boundaries, secure design principles and common weaknesses, each
+  with the code and tests behind it.
+- `docs/security-review-2026-11.md`, the first recorded security
+  review, with its findings and their disposition.
+- The vulnerability response process in `SECURITY.md`: acknowledgement,
+  triage, fix and release, advisory and CVE, coordinated disclosure and
+  credit.
+- Reproducible release assets: `scripts/normalise-release.py` pins the
+  zip entry times and the SBOM's serial number and timestamp to the
+  tagged commit, and `scripts/reproduce-release.sh` rebuilds a release
+  and compares it byte for byte (`docs/REPRODUCING.md`).
+- `SPDX-FileCopyrightText` beside the licence identifier in every
+  source file.
+
+### Changed
+
+- The roadmap looks a year ahead and lists the non-goals.
+- The README and the getting-started page no longer say the package is
+  not yet on NuGet; the ApiCompat check now compares with the
+  published 0.0.40.
+
 ## [0.0.40] - 2026-11-16
 
 ### Added
