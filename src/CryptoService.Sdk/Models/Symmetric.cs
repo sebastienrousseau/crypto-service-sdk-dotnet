@@ -42,6 +42,7 @@ public sealed class CiphertextResult
 
     /// <summary>The ciphertext's bytes.</summary>
     /// <returns>The decoded <see cref="Ciphertext"/>.</returns>
+    /// <exception cref="FormatException">The server sent a value that is not valid base64.</exception>
     public byte[] GetCiphertextBytes() => Convert.FromBase64String(Ciphertext);
 }
 
@@ -98,6 +99,7 @@ public sealed class SealResult
 
     /// <summary>The sealed box's bytes.</summary>
     /// <returns>The decoded <see cref="Sealed"/>.</returns>
+    /// <exception cref="FormatException">The server sent a value that is not valid base64.</exception>
     public byte[] GetSealedBytes() => Convert.FromBase64String(Sealed);
 }
 
@@ -166,6 +168,7 @@ public sealed class KeyWrapResult
 
     /// <summary>The wrapped key's bytes.</summary>
     /// <returns>The decoded <see cref="Wrapped"/>.</returns>
+    /// <exception cref="FormatException">The server sent a value that is not valid base64.</exception>
     public byte[] GetWrappedBytes() => Convert.FromBase64String(Wrapped);
 }
 

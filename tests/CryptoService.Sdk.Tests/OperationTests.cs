@@ -98,6 +98,22 @@ public sealed class OperationTests
         await Assert.ThrowsAsync<ArgumentNullException>(() => client.HashAsync(null!, CancellationToken.None));
     }
 
+    [Fact]
+    public void AMalformedHexFieldThrowsFormatException()
+    {
+        var result = new SignResult { Algorithm = "ed25519", Signature = "not-hex" };
+
+        Assert.Throws<FormatException>(result.GetSignatureBytes);
+    }
+
+    [Fact]
+    public void AMalformedBase64FieldThrowsFormatException()
+    {
+        var result = new SealResult { Algorithm = "xsalsa20poly1305", Sealed = "not base64!" };
+
+        Assert.Throws<FormatException>(result.GetSealedBytes);
+    }
+
     // Every Get*Bytes() method of the result decodes its field.
     private static void DecodeEveryBinaryField(object result)
     {

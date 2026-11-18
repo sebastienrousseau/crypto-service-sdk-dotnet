@@ -32,6 +32,7 @@ public sealed class MlKemEncapsulateResult
 
     /// <summary>The shared secret's bytes.</summary>
     /// <returns>The decoded <see cref="SharedSecret"/>.</returns>
+    /// <exception cref="FormatException">The server sent a value that is not valid hex.</exception>
     public byte[] GetSharedSecretBytes() => Convert.FromHexString(SharedSecret);
 }
 
@@ -65,6 +66,7 @@ public sealed class SharedSecretResult
 
     /// <summary>The shared secret's bytes.</summary>
     /// <returns>The decoded <see cref="SharedSecret"/>.</returns>
+    /// <exception cref="FormatException">The server sent a value that is not valid hex.</exception>
     public byte[] GetSharedSecretBytes() => Convert.FromHexString(SharedSecret);
 }
 
@@ -126,6 +128,7 @@ public sealed class HybridEncapsulateResult
 
     /// <summary>The shared secret's bytes.</summary>
     /// <returns>The decoded <see cref="SharedSecret"/>.</returns>
+    /// <exception cref="FormatException">The server sent a value that is not valid hex.</exception>
     public byte[] GetSharedSecretBytes() => Convert.FromHexString(SharedSecret);
 }
 
