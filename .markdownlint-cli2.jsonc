@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0 OR MIT
+// SPDX-FileCopyrightText: 2026 Sebastien Rousseau
 {
   // Markdown style for the docs-lint job. Length and inline HTML are not
   // linted (the README uses centred HTML headers); the rules that remain

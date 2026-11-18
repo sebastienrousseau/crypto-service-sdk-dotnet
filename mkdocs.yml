@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0 OR MIT
+# SPDX-FileCopyrightText: 2026 Sebastien Rousseau
 #
 # The user manual: MkDocs Material from docs/. `make docs` builds it in
 # strict mode (any warning, such as a broken link, fails); the docs
@@ -77,6 +78,10 @@ nav:
   - Comparison: COMPARISON.md
   - Benchmarks: BENCHMARKS.md
   - Packaging: packaging.md
+  - Reproducing a release: REPRODUCING.md
+  - Security:
+      - Assurance case: ASSURANCE.md
+      - Security review 2026-11: security-review-2026-11.md
   - Policies: POLICIES.md
   - Roadmap: ROADMAP.md
   - Project:

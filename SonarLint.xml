@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- SPDX-License-Identifier: Apache-2.0 OR MIT -->
+<!-- SPDX-FileCopyrightText: 2026 Sebastien Rousseau -->
 <!-- Thresholds for the SonarAnalyzer complexity rules the build enforces
      (enabled in .editorconfig): ~/Code/AGENTS.md section 0 ceilings. -->
 <AnalysisInput>

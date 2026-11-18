@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # SPDX-License-Identifier: Apache-2.0 OR MIT
+# SPDX-FileCopyrightText: 2026 Sebastien Rousseau
 #
 # API breakage check: packs CryptoService.Sdk with .NET package validation,
 # which runs Microsoft.DotNet.ApiCompat against the last published

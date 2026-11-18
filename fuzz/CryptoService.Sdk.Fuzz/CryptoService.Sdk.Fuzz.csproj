@@ -1,4 +1,5 @@
 <!-- SPDX-License-Identifier: Apache-2.0 OR MIT -->
+<!-- SPDX-FileCopyrightText: 2026 Sebastien Rousseau -->
 <Project Sdk="Microsoft.NET.Sdk">
   <!-- The SharpFuzz harness for the two parsers that read server bytes:
        the problem-body parser and the success-response decoder.

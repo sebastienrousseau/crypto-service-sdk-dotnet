@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0 OR MIT
+# SPDX-FileCopyrightText: 2026 Sebastien Rousseau
 """MkDocs hook: point links that leave docs/ at the file on GitHub.
 
 The root Markdown files (DEVELOPMENT.md, SECURITY.md, ...) are included

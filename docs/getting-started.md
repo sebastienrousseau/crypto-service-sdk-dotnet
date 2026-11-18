@@ -1,15 +1,19 @@
 <!-- SPDX-License-Identifier: Apache-2.0 OR MIT -->
+<!-- SPDX-FileCopyrightText: 2026 Sebastien Rousseau -->
 
 # Getting started
 
 ## Install
 
 ```sh
-dotnet add package CryptoService.Sdk --version 0.0.40
+dotnet add package CryptoService.Sdk --version 0.0.41
 ```
 
 The package targets `net10.0` and has no dependency beyond the base
-class library. Until 0.0.40 is on NuGet, reference
+class library. It is on
+[NuGet](https://www.nuget.org/packages/CryptoService.Sdk) from 0.0.40;
+the snippet names the version `main` prepares, so use the newest
+published one until it is out, or reference
 `src/CryptoService.Sdk/CryptoService.Sdk.csproj` from a clone.
 
 ## A server

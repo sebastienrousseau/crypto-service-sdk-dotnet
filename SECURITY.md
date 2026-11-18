@@ -1,16 +1,19 @@
 <!-- SPDX-License-Identifier: Apache-2.0 OR MIT -->
+<!-- SPDX-FileCopyrightText: 2026 Sebastien Rousseau -->
 
 # Security Policy
 
 ## Supported versions
 
 This SDK follows the Crypto Service suite cadence. While pre-`1.0`, the
-latest released `0.0.x` receives security fixes; older `0.0.x` versions
-do not. `0.0.40` is the first release.
+latest released `0.0.x` receives security fixes; an older `0.0.x` is
+fixed by upgrading, since each step is `0.0.1`. `0.0.40` was the first
+release.
 
 | Version | Status | Receives security fixes? |
 | :--- | :--- | :--- |
-| `0.0.40` | Current (first release, 2026-11-16) | Yes |
+| `0.0.41` | Current (in preparation on `main`) | Yes |
+| `0.0.40` | First release (2026-11-16), latest on NuGet | Yes, until 0.0.41 is out |
 
 ## Reporting a vulnerability
 
@@ -24,7 +27,50 @@ smallest reproduction with synthetic keys. Never send a real key,
 credential, token or plaintext. A vulnerability in the server itself
 belongs to [crypto-service](https://github.com/sebastienrousseau/crypto-service/security).
 
+## How a report is handled
+
+The project has one maintainer, working in a personal capacity, with no
+SLA and no bug bounty. The times below are goals, not guarantees.
+
+1. **Acknowledgement.** The maintainer is notified of every private
+   report and aims to acknowledge it in the advisory thread within 5
+   working days.
+2. **Triage.** The maintainer reproduces the report with synthetic keys,
+   decides whether it is a vulnerability of this SDK, of crypto-server
+   (then, with the reporter's agreement, it moves to
+   [crypto-service](https://github.com/sebastienrousseau/crypto-service/security))
+   or not a vulnerability, rates its severity with CVSS, and tells the
+   reporter the outcome and the plan, aiming for 10 working days after
+   acknowledgement.
+3. **Fix and release.** The fix is prepared in the advisory's temporary
+   private fork, with a test that fails without it, and ships as the
+   next `0.0.x` through the usual signed release
+   ([DEVELOPMENT.md](DEVELOPMENT.md#release-model)): NuGet package,
+   SBOM, checksums and build provenance. The goal is a fixed release
+   within 30 days of triage for a critical or high severity issue and
+   within 90 days of the report for any other.
+4. **Advisory and CVE.** When the fix is published, the maintainer
+   publishes a GitHub security advisory on this repository, naming the
+   affected and fixed versions of `CryptoService.Sdk`, and requests a
+   CVE for it through GitHub, a CVE Numbering Authority. The advisory
+   reaches the GitHub Advisory Database, which `dotnet list package
+   --vulnerable` and Dependabot read. The `CHANGELOG.md` entry of the
+   release links it.
+5. **Coordinated disclosure.** Details stay private until the fixed
+   release is out, or 90 days after the report if that comes first,
+   unless the reporter and the maintainer agree on another date. An
+   issue already public or exploited is fixed and disclosed as fast as
+   possible.
+6. **Credit.** The reporter is credited by name or handle in the
+   advisory and the changelog, unless they ask to stay anonymous.
+
 ## Security posture
+
+The assurance case, [docs/ASSURANCE.md](docs/ASSURANCE.md), states the
+threat model, the trust boundaries, how the secure design principles
+are applied and how common weaknesses are countered, with the code and
+tests behind each claim. The latest security review is
+[docs/security-review-2026-11.md](docs/security-review-2026-11.md).
 
 ### Scope
 

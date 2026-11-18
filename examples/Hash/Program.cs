@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0 OR MIT
+// SPDX-FileCopyrightText: 2026 Sebastien Rousseau
 //
 // Hashes "abc" with SHA-256 and BLAKE3 on the server and checks the
 // SHA-256 digest against the FIPS 180-2 test vector. The digest arrives

@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0 OR MIT
+// SPDX-FileCopyrightText: 2026 Sebastien Rousseau
 //
 // The suite's benchmark scenarios, named alike in every Crypto Service
 // SDK: encode_request, decode_response and decode_problem (the client's

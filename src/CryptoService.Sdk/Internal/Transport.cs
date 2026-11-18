@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0 OR MIT
+// SPDX-FileCopyrightText: 2026 Sebastien Rousseau
 
 using System.Diagnostics;
 using System.Net;
@@ -37,9 +38,11 @@ internal sealed class Transport
     {
         _http = http;
         _baseUrl = CheckBaseUrl(options.BaseUrl);
-        _apiKey = options.ApiKey;
-        _token = options.Token;
-        _traceparent = string.IsNullOrWhiteSpace(options.Traceparent) ? null : options.Traceparent.Trim();
+        _apiKey = CheckHeaderValue(options.ApiKey, nameof(options.ApiKey));
+        _token = CheckHeaderValue(options.Token, nameof(options.Token));
+        _traceparent = string.IsNullOrWhiteSpace(options.Traceparent)
+            ? null
+            : CheckHeaderValue(options.Traceparent.Trim(), nameof(options.Traceparent));
         _generateTraceparent = options.GenerateTraceparent;
         _timeout = CheckTimeout(options.Timeout, nameof(options.Timeout));
         _deadline = options.Deadline is { } deadline ? CheckTimeout(deadline, nameof(options.Deadline)) : null;
@@ -244,7 +247,28 @@ internal sealed class Transport
             throw new ArgumentException("BaseUrl must be an absolute URI.", nameof(baseUrl));
         }
 
+        // The route is appended to the base URL: a query or a fragment would
+        // swallow it, and user info is not how the client authenticates (it
+        // would also show wherever the URL is printed).
+        if (baseUrl.UserInfo.Length > 0 || baseUrl.Query.Length > 0 || baseUrl.Fragment.Length > 0)
+        {
+            throw new ArgumentException("BaseUrl must not carry user info, a query or a fragment.", nameof(baseUrl));
+        }
+
         return baseUrl.AbsoluteUri.TrimEnd('/');
+    }
+
+    // HttpClient writes a header added without validation to the wire as
+    // it is: a line break would inject a header into every request. The
+    // message never repeats the value, which may be a credential.
+    internal static string? CheckHeaderValue(string? value, string name)
+    {
+        if (value is not null && value.AsSpan().IndexOfAny('\r', '\n', '\0') >= 0)
+        {
+            throw new ArgumentException(name + " must not contain a line break or a NUL character.", name);
+        }
+
+        return value;
     }
 
     private static TimeSpan CheckTimeout(TimeSpan value, string name)

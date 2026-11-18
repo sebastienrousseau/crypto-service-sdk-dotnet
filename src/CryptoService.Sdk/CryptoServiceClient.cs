@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0 OR MIT
+// SPDX-FileCopyrightText: 2026 Sebastien Rousseau
 
 using System.Net;
 using System.Text.Json;
@@ -127,8 +128,8 @@ public sealed partial class CryptoServiceClient : IDisposable, IAsyncDisposable
     /// <param name="mediaType">The body's <c>Content-Type</c>; defaults to <c>application/json</c>.</param>
     /// <param name="cancellationToken">Cancels the call.</param>
     /// <returns>The status, media type and body.</returns>
-    /// <exception cref="ArgumentException">The method is empty, or the path
-    /// does not start with <c>/</c>.</exception>
+    /// <exception cref="ArgumentException">The method is empty, the path
+    /// does not start with <c>/</c>, or the media type holds a line break.</exception>
     /// <exception cref="CryptoTransportException">No answer arrived.</exception>
     public Task<RawResponse> RequestAsync(
         string method,
@@ -144,6 +145,7 @@ public sealed partial class CryptoServiceClient : IDisposable, IAsyncDisposable
             throw new ArgumentException("The path must start with '/'.", nameof(path));
         }
 
+        Transport.CheckHeaderValue(mediaType, nameof(mediaType));
         var call = new Call(new HttpMethod(method.ToUpperInvariant()), path, body?.ToArray(), Authenticate: true);
         return _transport.SendRawAsync(call, mediaType, cancellationToken);
     }

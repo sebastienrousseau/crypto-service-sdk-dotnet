@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0 OR MIT
+// SPDX-FileCopyrightText: 2026 Sebastien Rousseau
 //
 // An authenticated-encryption round trip with XChaCha20-Poly1305 on the
 // server: encrypt, then decrypt, under a 256-bit key sent as hex; then

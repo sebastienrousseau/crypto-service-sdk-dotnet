@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0 OR MIT
+# SPDX-FileCopyrightText: 2026 Sebastien Rousseau
 """Halstead difficulty per C# method, against the ceiling of 30.
 
 The .NET analysers enforce the other complexity ceilings (CA1502 for

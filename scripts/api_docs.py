@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0 OR MIT
+# SPDX-FileCopyrightText: 2026 Sebastien Rousseau
 """Render the library's XML documentation comments as Markdown.
 
 Reads the documentation file the build writes beside CryptoService.Sdk.dll

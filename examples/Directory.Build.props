@@ -1,4 +1,5 @@
 <!-- SPDX-License-Identifier: Apache-2.0 OR MIT -->
+<!-- SPDX-FileCopyrightText: 2026 Sebastien Rousseau -->
 <Project>
   <!-- Every example is a console project on the SDK, sharing
        Shared/Example.cs, and is held to the repository's compiler and
